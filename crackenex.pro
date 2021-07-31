@@ -17,9 +17,9 @@ CONFIG += console
 # Input
 SOURCES += main.cpp
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lqt5quentier
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lqt5quentier
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lqt5quentier
+win32:CONFIG(release, debug|release): LIBS += -L/usr/local/lib/release/ -lqt5quentier
+else:win32:CONFIG(debug, debug|release): LIBS += -L/usr/local/lib/debug/ -lqt5quentier
+else:unix: LIBS += -L/usr/local/lib/ -lqt5quentier
 
-INCLUDEPATH += $$PWD/../../../../usr/local/include
-DEPENDPATH += $$PWD/../../../../usr/local/include
+INCLUDEPATH += /usr/local/include
+DEPENDPATH += /usr/local/include
