@@ -1,3 +1,5 @@
+# crackenex
+#### A program to crack encrypted notes in Evernote .enex files
 
 ## Requirements
 
