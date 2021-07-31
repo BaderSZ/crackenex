@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     QString dictName = parser.value(dictionaryOption);
     QString encName = parser.value(enexName);
 
-    QString mypassphrase, encryptedText, decryptedText;
+    QString passphrase, encryptedText, decryptedText;
     quentier::EncryptionManager em;
     quentier::ErrorString err;
     bool test;
@@ -55,14 +55,14 @@ int main(int argc, char *argv[])
         QTextStream in(&dictFile);
         while(!in.atEnd())
         {
-            mypassphrase = in.readLine();
+            passphrase = in.readLine();
 
-            qDebug() << "Try: "  << mypassphrase;
-            test = em.decrypt(encryptedText, mypassphrase, QStringLiteral("AES"), 128, decryptedText, err);
+            qDebug() << "Try: "  << passphrase;
+            test = em.decrypt(encryptedText, passphrase, QStringLiteral("AES"), 128, decryptedText, err);
             if (test == true)
             {
                 qInfo() << "Success!";
-                qInfo() << "Password: " << mypassphrase;
+                qInfo() << "Password: " << passphrase;
                 return EXIT_SUCCESS;
             }
         }
