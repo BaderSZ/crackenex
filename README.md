@@ -12,7 +12,7 @@ make
 ```
 
 ## How-To
-Firstly, copy-paste the content of the `<en-crypt>` tag form your .enex file into its own file. (autodetect/read will come in the near future)
+Firstly, copy-paste the content of the `<en-crypt>` tag from your .enex file into its own file. (autodetect/read will come in the near future)
 
 The program can be run like so:
 ```
