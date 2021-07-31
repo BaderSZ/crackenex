@@ -1,0 +1,4 @@
+crackenex
+*.o
+.qmake.stash
+*.pro.user
