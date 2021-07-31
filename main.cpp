@@ -5,6 +5,7 @@
 #include <QString>
 #include <QCommandLineParser>
 #include <QDebug>
+#include <QRegularExpression>
 
 #include <quentier/utility/EncryptionManager.h>
 #include <quentier/types/ErrorString.h>
@@ -25,14 +26,14 @@ int main(int argc, char *argv[])
                                         QCoreApplication::translate("main", "dict"));
     parser.addOption(dictionaryOption);
 
-    QCommandLineOption enexName(QStringList() << "s" << "source",
+    QCommandLineOption enexOption(QStringList() << "s" << "source",
                                   QCoreApplication::translate("src", "Base64 encrypted file <source>"),
                                   QCoreApplication::translate("src", "source"));
-    parser.addOption(enexName);
+    parser.addOption(enexOption);
     parser.process(a);
 
     QString dictName = parser.value(dictionaryOption);
-    QString encName = parser.value(enexName);
+    QString enexName = parser.value(enexOption);
 
     QString passphrase, encryptedText, decryptedText;
     quentier::EncryptionManager em;
@@ -40,15 +41,22 @@ int main(int argc, char *argv[])
     bool test;
 
     QFile dictFile(dictName);
-    QFile encFile(encName);
+    QFile enexFile(enexName);
 
-    if(!encFile.open(QIODevice::ReadOnly))
+    if(!enexFile.open(QIODevice::ReadOnly))
     {
         qInfo() << "Could not open enc file";
         return EXIT_FAILURE;
     }
-    QTextStream enc(&encFile);
-    encryptedText = enc.readAll();
+
+    QTextStream enc(&enexFile);
+    QString enexContent = enc.readAll();
+
+    QRegularExpression re("<en-crypt[a-zA-Z0-9 =\"]*>(\\K.*?)(?=<\\/en-crypt>)");
+    QRegularExpressionMatch result = re.match(enexContent);
+
+    encryptedText =  result.captured(0);
+    enexFile.close();
 
     if (dictFile.open(QIODevice::ReadOnly))
     {
@@ -74,5 +82,5 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
     qInfo() << "Password not found";
-    return a.exec();
+    return EXIT_SUCCESS;
 }
