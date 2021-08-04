@@ -40,6 +40,12 @@ int main(int argc, char *argv[])
     quentier::ErrorString err;
     bool test;
 
+    if(enexName.isEmpty() || dictName.isEmpty())
+    {
+        qInfo() << "Missing arguments. See --help for more info";
+        return EXIT_FAILURE;
+    }
+
     QFile dictFile(dictName);
     QFile enexFile(enexName);
 
@@ -58,29 +64,31 @@ int main(int argc, char *argv[])
     encryptedText =  result.captured(0);
     enexFile.close();
 
-    if (dictFile.open(QIODevice::ReadOnly))
-    {
-        QTextStream in(&dictFile);
-        while(!in.atEnd())
-        {
-            passphrase = in.readLine();
+    if(dictName.isEmpty())
+        qInfo() << "No dict file given. Using stdin...";
 
-            qDebug() << "Try: "  << passphrase;
-            test = em.decrypt(encryptedText, passphrase, QStringLiteral("AES"), 128, decryptedText, err);
-            if (test == true)
-            {
-                qInfo() << "Success!";
-                qInfo() << "Password: " << passphrase;
-                return EXIT_SUCCESS;
-            }
-        }
-        dictFile.close();
-    }
-    else
+    QTextStream in(stdin);
+
+    if (dictFile.open(QIODevice::ReadOnly))
+        QTextStream in(&dictFile);
+
+
+    while(!in.atEnd())
     {
-        qInfo()  << "Could not open dict file";
-        return EXIT_FAILURE;
+        passphrase = in.readLine();
+
+        qDebug() << "Try: "  << passphrase;
+        test = em.decrypt(encryptedText, passphrase, QStringLiteral("AES"), 128, decryptedText, err);
+        if (test == true)
+        {
+            qInfo() << "Success!";
+            qInfo() << "Password: " << passphrase;
+            return EXIT_SUCCESS;
+        }
     }
+
+        dictFile.close();
+
     qInfo() << "Password not found";
     return EXIT_SUCCESS;
 }
