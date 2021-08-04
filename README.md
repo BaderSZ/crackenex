@@ -21,4 +21,9 @@ The program can be run like so:
 ```
 ./crackenex --dict <dictionary file> --source <enex file>
 ```
+you can also provide your dictionary file via stdin instead of a file:
+
+```
+cat dict | crackenex --source <enex file>
+```
 
