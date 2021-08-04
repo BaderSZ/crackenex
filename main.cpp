@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     QString enexName = parser.value(enexOption);
 
     QString passphrase, encryptedText, decryptedText;
-    quentier::EncryptionManager em;
+    quentier::EncryptionManager manager;
     quentier::ErrorString err;
     bool test;
 
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
         passphrase = in.readLine();
 
         qDebug() << "Try: "  << passphrase;
-        test = em.decrypt(encryptedText, passphrase, QStringLiteral("AES"), 128, decryptedText, err);
+        test = manager.decrypt(encryptedText, passphrase, QStringLiteral("AES"), 128, decryptedText, err);
         if (test == true)
         {
             qInfo() << "Success!";
