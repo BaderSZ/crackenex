@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
         }
     }
 
-        dictFile.close();
+    dictFile.close();
 
     qInfo() << "Password not found";
     return EXIT_SUCCESS;
