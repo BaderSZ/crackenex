@@ -70,7 +70,14 @@ int main(int argc, char *argv[])
     QTextStream in(stdin);
 
     if (dictFile.open(QIODevice::ReadOnly))
+    {
         QTextStream in(&dictFile);
+    }
+    else
+    {
+        qInfo() << "Could not open dict";
+        return EXIT_FAILURE;
+    }
 
 
     while(!in.atEnd())
