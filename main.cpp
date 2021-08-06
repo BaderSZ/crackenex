@@ -64,9 +64,6 @@ int main(int argc, char *argv[])
     encryptedText =  result.captured(0);
     enexFile.close();
 
-    if(dictName.isEmpty())
-        qInfo() << "No dict file given. Using stdin...";
-
     QTextStream in(stdin);
 
     if (dictFile.open(QIODevice::ReadOnly))
